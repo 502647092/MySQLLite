@@ -1,4 +1,4 @@
-package cn.citycraft.MySQLList.config;
+package cn.citycraft.MySQLLite.config;
 
 import java.io.BufferedReader;
 import java.io.File;
