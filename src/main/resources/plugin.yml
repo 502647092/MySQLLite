@@ -1,0 +1,13 @@
+name: ${project.artifactId}
+main: ${project.groupId}.${project.artifactId}.${project.artifactId}
+version: ${project.version}
+auther: 喵♂呜
+website: http://ci.citycraft.cn:8800/jenkins/job/${project.artifactId}/
+commands:
+  sql:
+    description: MySQLLite.
+    usage: /sql help 查看帮助 
+permissions: 
+  sql.use: 
+    description: 允许使用sql语句
+    default: true

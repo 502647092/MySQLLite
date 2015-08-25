@@ -1,0 +1,16 @@
+#本文件为插件的主配置文件
+version: '1.0'
+#服务器名称
+servername: ''
+#插件名称
+pluginname: '&6[&bMySQLLite&6]&r'
+#是否提示
+tipplayer: true
+
+Data:
+  MySQL:
+    database: minecraft
+    username: root
+    password: 
+    ip: localhost
+    port: 3306
