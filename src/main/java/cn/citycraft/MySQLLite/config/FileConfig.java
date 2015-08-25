@@ -118,7 +118,7 @@ public class FileConfig extends YamlConfiguration {
 
 	@SuppressWarnings("deprecation")
 	private void init(InputStream stream) {
-		Validate.notNull(file, "File cannot be null");
+		Validate.notNull(stream, "Stream cannot be null");
 		try {
 			this.load(stream);
 		} catch (FileNotFoundException ex) {
