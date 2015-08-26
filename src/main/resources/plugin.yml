@@ -7,7 +7,13 @@ commands:
   sql:
     description: MySQLLite.
     usage: /sql help 查看帮助 
+  authmeconvert: 
+    description: AuthMe数据转换.
+    usage: /authmeconvert help 查看帮助 
 permissions: 
   sql.use: 
-    description: 允许使用sql语句
-    default: true
+    description: 允许使用sql命令
+    default: op
+  authmeconvert.use: 
+    description: 允许使用authmeconvert命令
+    default: op

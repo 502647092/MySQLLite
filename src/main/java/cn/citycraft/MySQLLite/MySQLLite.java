@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cn.citycraft.MySQLLite;
 
@@ -14,10 +14,9 @@ import cn.citycraft.MySQLLite.utils.MySqlHelper;
 
 /**
  * MySQLLite主类
- * 
- * @author 蒋天蓓
- *         2015年8月25日上午9:30:12
- * 
+ *
+ * @author 蒋天蓓 2015年8月25日上午9:30:12
+ *
  */
 public class MySQLLite extends JavaPlugin {
 	public static MySqlHelper mysql = null;
@@ -29,10 +28,7 @@ public class MySQLLite extends JavaPlugin {
 	String dbuserName = null;
 	String dbpwd = null;
 
-	@Override
-	public void onLoad() {
-		config = new FileConfig(this, new File(getDataFolder(), "config.yml"));
-
+	public void loadcfg() {
 		dbHost = config.getString("Data.MySQL.ip");
 		dbPort = config.getString("Data.MySQL.port");
 		dbName = config.getString("Data.MySQL.database");
@@ -41,16 +37,15 @@ public class MySQLLite extends JavaPlugin {
 	}
 
 	@Override
-	public void onEnable() {
-
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command command, String label, final String[] args) {
 		switch (args.length) {
 		case 0:
 			break;
 		case 1:
+			if (args[0].equalsIgnoreCase("reload")) {
+				config.reload();
+				loadcfg();
+			}
 			break;
 		case 2:
 			if (args[0].equalsIgnoreCase("connect")) {
@@ -74,12 +69,28 @@ public class MySQLLite extends JavaPlugin {
 				mysql.runSql(args[1]);
 				break;
 			case "runfile":
-				mysql.runSqlfile(new File(getDataFolder(), args[1]));
+				this.getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
+					@Override
+					public void run() {
+						mysql.runSqlfile(new File(getDataFolder(), args[1]));
+					}
+				});
 				break;
 			}
 			break;
 		}
 		return true;
+	}
+
+	@Override
+	public void onEnable() {
+
+	}
+
+	@Override
+	public void onLoad() {
+		config = new FileConfig(this, new File(getDataFolder(), "config.yml"));
+		loadcfg();
 	}
 
 }

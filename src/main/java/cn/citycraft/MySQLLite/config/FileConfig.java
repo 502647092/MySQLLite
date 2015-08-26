@@ -29,8 +29,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 /**
- * An implementation of {@link Configuration} which saves all files in Yaml.
- * Note that this
+ * An implementation of {@link Configuration} which saves all files in Yaml. Note that this
  * implementation is not synchronized.
  */
 public class FileConfig extends YamlConfiguration {
@@ -80,14 +79,15 @@ public class FileConfig extends YamlConfiguration {
 					loger.info("配置文件 " + filename + " 创建失败...");
 				} else {
 					plugin.saveResource(filename, true);
+					loger.info("配置文件 " + filename + " 不存在 从插件释放...");
 				}
 			} else {
 				FileConfig newcfg = new FileConfig(stream);
 				FileConfig oldcfg = new FileConfig(file);
 				String newver = newcfg.getString("version");
 				String oldver = oldcfg.getString("version");
-				if (newver != null && oldver != null && newver != oldver) {
-					loger.warning("配置文件: " + filename + " 版本过低 正在升级...");
+				if (newver != null && newver != oldver) {
+					loger.warning("配置文件: " + filename + " 版本 " + oldver + " 过低 正在升级到 " + newver + " ...");
 					try {
 						oldcfg.save(new File(file.getParent(), filename + ".backup"));
 						loger.warning("配置文件: " + filename + " 已备份为 " + filename + ".backup !");
@@ -151,6 +151,10 @@ public class FileConfig extends YamlConfiguration {
 			input.close();
 		}
 		loadFromString(builder.toString());
+	}
+
+	public void reload() {
+		init(file);
 	}
 
 	public void save() {
