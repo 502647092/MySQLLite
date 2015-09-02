@@ -57,7 +57,7 @@ public class MySqlHelper {
 		try {
 			Class.forName(driverName).newInstance();
 		} catch (Exception e) {
-		}// "org.gjt.mm.mysql.Driver"两个驱动都可以用
+		} // "org.gjt.mm.mysql.Driver"两个驱动都可以用
 		String dbHost = host;// 数据库的一些信息
 		String dbPort = port;
 		String dbName = dbaName;
@@ -82,9 +82,8 @@ public class MySqlHelper {
 		if (!dbConnection())
 			return false;
 		String kv = "";
-		for (Entry<String, String> kvs : fields.entrySet()) {
+		for (Entry<String, String> kvs : fields.entrySet())
 			kv += "`" + kvs.getKey() + "` " + kvs.getValue() + " NOT NULL , ";
-		}
 		kv = kv.substring(0, kv.length() - 2);// 根据String的索引提取子串
 		String sql = "CREATE TABLE `" + tableName + "` ( " + kv + (Conditions == "" ? "" : " , " + Conditions) + " ) ENGINE = InnoDB DEFAULT CHARSET=UTF8";
 		try {
@@ -145,9 +144,8 @@ public class MySqlHelper {
 			return false;
 		String selCondition = "";
 		if (selConditions != null && !selConditions.isEmpty()) {
-			for (Entry<String, String> kvs : selConditions.entrySet()) {
+			for (Entry<String, String> kvs : selConditions.entrySet())
 				selCondition += kvs.getKey() + "='" + kvs.getValue() + "', ";
-			}
 			selCondition = " WHERE " + selCondition.substring(0, selCondition.length() - 2);// 根据String的索引提取子串
 		}
 		String sql = "DELETE FROM `" + tableName + "` " + selCondition;
@@ -177,9 +175,8 @@ public class MySqlHelper {
 			return false;
 		String selCondition = "";
 		if (selConditions != null && !selConditions.isEmpty()) {
-			for (Entry<String, String> kvs : selConditions.entrySet()) {
+			for (Entry<String, String> kvs : selConditions.entrySet())
 				selCondition += kvs.getKey() + "='" + kvs.getValue() + "', ";
-			}
 			selCondition = " WHERE " + selCondition.substring(0, selCondition.length() - 2);// 根据String的索引提取子串
 		}
 		String sql = "SELECT * FROM " + tableName + selCondition;
@@ -237,15 +234,15 @@ public class MySqlHelper {
 	 *            选择条件
 	 * @return 一个含有map的List（列表）
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({	"rawtypes",
+						"unchecked" })
 	public List dbSelect(String tableName, List<String> fields, String selCondition) {
 		if (!dbConnection())
 			return null;
 		List mapInList = new ArrayList();
 		String selFields = "";
-		for (int i = 0; i < fields.size(); ++i) {
+		for (int i = 0; i < fields.size(); ++i)
 			selFields += fields.get(i) + ", ";
-		}
 		String selFieldsTem = selFields.substring(0, selFields.length() - 2);// 根据String的索引提取子串
 		String sql = "SELECT " + selFieldsTem + " FROM `" + tableName + "`" + selCondition == "" ? "" : " WHERE " + selCondition;
 		try {
@@ -258,9 +255,8 @@ public class MySqlHelper {
 			}
 			while (dbresult.next()) {
 				Map selResult = new HashMap();
-				for (String col : fields) {
+				for (String col : fields)
 					selResult.put(col, dbresult.getString(col));
-				}
 				mapInList.add(selResult);
 			}
 		} catch (Exception e) {
@@ -287,9 +283,8 @@ public class MySqlHelper {
 		String selFieldsTem = fields;
 		String selCondition = "";
 		if (selConditions != null && !selConditions.isEmpty()) {
-			for (Entry<String, String> kvs : selConditions.entrySet()) {
+			for (Entry<String, String> kvs : selConditions.entrySet())
 				selCondition += kvs.getKey() + "='" + kvs.getValue() + "', ";
-			}
 			selCondition = " WHERE " + selCondition.substring(0, selCondition.length() - 2);// 根据String的索引提取子串
 		}
 		String sql = "SELECT " + selFieldsTem + " FROM " + tableName + selCondition + " limit 1";
@@ -403,24 +398,24 @@ public class MySqlHelper {
 			print("执行SQL文件: " + file.getName() + " ...");
 			br = new BufferedReader(new FileReader(file));
 			state = dbconn.createStatement();
-			while ((sql = br.readLine()) != null) {
-				if (sql != "") {
+			while ((sql = br.readLine()) != null)
+				if (sql != "")
 					try {
 						state.executeUpdate(sql);
 					} catch (Exception e) {
 						print("数据库操作出错: " + e.getMessage());
 						print("SQL语句: " + sql);
 					}
-				}
-			}
 			return true;
 		} catch (Exception e) {
 			print("执行SQL文件 " + file.getName() + "出错: " + e.getMessage());
 			return false;
 		} finally {
 			try {
-				state.close();
-				br.close();
+				if (state != null)
+					state.close();
+				if (br != null)
+					br.close();
 			} catch (Exception e) {
 			}
 		}

@@ -9,8 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import cn.citycraft.MySQLLite.config.FileConfig;
 import cn.citycraft.MySQLLite.utils.MySqlHelper;
+import cn.citycraft.config.FileConfig;
 
 /**
  * MySQLLite主类
@@ -52,9 +52,9 @@ public class MySQLLite extends JavaPlugin {
 				dbName = args[1];
 				mysql = new MySqlHelper(dbHost, dbPort, dbName, dbuserName, dbpwd);
 				sender.sendMessage("开始连接数据库 " + dbName + " ...");
-				if (mysql.dbConnection()) {
+				if (mysql.dbConnection())
 					sender.sendMessage("数据库" + dbName + "连接成功!");
-				} else {
+				else {
 					sender.sendMessage("数据库" + dbName + "连接失败!");
 					mysql = null;
 				}
@@ -69,12 +69,7 @@ public class MySQLLite extends JavaPlugin {
 				mysql.runSql(args[1]);
 				break;
 			case "runfile":
-				this.getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
-					@Override
-					public void run() {
-						mysql.runSqlfile(new File(getDataFolder(), args[1]));
-					}
-				});
+				this.getServer().getScheduler().runTaskAsynchronously(this, () -> mysql.runSqlfile(new File(getDataFolder(), args[1])));
 				break;
 			}
 			break;
@@ -89,7 +84,7 @@ public class MySQLLite extends JavaPlugin {
 
 	@Override
 	public void onLoad() {
-		config = new FileConfig(this, new File(getDataFolder(), "config.yml"));
+		config = new FileConfig(this);
 		loadcfg();
 	}
 
