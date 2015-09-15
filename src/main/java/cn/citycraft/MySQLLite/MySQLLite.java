@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import cn.citycraft.MySQLLite.utils.MySqlHelper;
-import cn.citycraft.config.FileConfig;
+import cn.citycraft.PluginHelper.config.FileConfig;
 
 /**
  * MySQLLite主类
