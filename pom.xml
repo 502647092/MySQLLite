@@ -33,6 +33,10 @@
 							<include>cn.citycraft:PluginHelper</include>
 						</includes>
 					</artifactSet>
+					<relocation>
+						<pattern>cn.citycraft.PluginHelper</pattern>
+						<shadedPattern>${project.groupId}.${project.artifactId}</shadedPattern>
+					</relocation>
 				</configuration>
 				<executions>
 					<execution>
